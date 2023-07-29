@@ -15,11 +15,6 @@ class User {
 
     static async register({ username, password, first_name, last_name, phone }) {
         try {
-            // TODO: move to /users/register
-            // if (!username || !password) {
-            //   throw new ExpressError("Username and password required", 400);
-            // }
-
             const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR)
 
             const result = await db.query(`
@@ -183,7 +178,7 @@ class User {
             const { first_name, last_name, phone, username } = user
             const { id, body, sent_at, read_at } = row
             messages.push({ id, from_user: { first_name, last_name, phone, username }, body, sent_at, read_at })
-            
+
         }
         return messages
     }
