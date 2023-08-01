@@ -2,7 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const ExpressError = require("../expressError");
 const Message = require("../models/message");
-const { ensureLoggedIn } = require("../middleware/auth");
+const { ensureLoggedIn, ensureCorrectUser } = require("../middleware/auth");
 
 /** GET /:id - get detail of message.
  *
@@ -52,7 +52,7 @@ router.post("/", ensureLoggedIn, async (req, res, next) => {
  *
  **/
 
-router.post("/:id/read", ensureLoggedIn, async (req, res, next) => {
+router.post("/:id/read", ensureLoggedIn, ensureCorrectUser, async (req, res, next) => {
   try {
     const user = req.user
     const message = await Message.get(req.params.id)
